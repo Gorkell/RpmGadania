@@ -74,10 +74,32 @@ let currentRune = null;
 let currentUser = null;
 let cart = [];
 
+function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('active');
+    
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const icon = menuToggle.querySelector('i');
+    
+    if (navLinks.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+    } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    }
+}
+
 function scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (section) {
         section.scrollIntoView({ behavior: 'smooth' });
+        
+        // Закрываем мобильное меню после клика
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks.classList.contains('active')) {
+            toggleMobileMenu();
+        }
     }
 }
 
@@ -545,6 +567,17 @@ document.head.appendChild(style);
 
 document.addEventListener('DOMContentLoaded', function() {
     loadCart();
+    
+    // Закрываем мобильное меню при клике вне его
+    document.addEventListener('click', function(event) {
+        const navbar = document.querySelector('.navbar');
+        const navLinks = document.querySelector('.nav-links');
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (!navbar.contains(event.target) && navLinks.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+    });
     
     const observerOptions = {
         threshold: 0.1,
