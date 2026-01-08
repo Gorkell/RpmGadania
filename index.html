@@ -10,6 +10,9 @@
 </head>
 <body>
     <div class="stars"></div>
+    <div class="nebula"></div>
+    <div class="particles" id="particles"></div>
+    <div class="fireflies" id="fireflies"></div>
     <div class="moon"></div>
     
     <header class="header">
@@ -103,6 +106,7 @@
         </section>
 
         <section id="taro-info" class="divination-section">
+            <div class="tarot-cards" id="taro-cards"></div>
             <div class="container">
                 <h2 class="section-title">Таро - Древний Мудрости</h2>
                 <p class="section-description">78 карт, хранящих секреты вселенной</p>
@@ -164,6 +168,8 @@
         </section>
 
         <section id="astrology" class="divination-section">
+            <div class="background-constellations" id="bg-constellations"></div>
+            <div class="astrology-stars" id="astrology-stars"></div>
             <div class="container">
                 <h2 class="section-title">Астрология - Язык Звёзд</h2>
                 <p class="section-description">Как планеты влияют на нашу судьбу</p>
@@ -343,8 +349,8 @@
                         </div>
                         <h3>Как вернуть гармонию</h3>
                         <p>Что забирает энергию и как восстановить силы</p>
-                        <div class="product-price">20 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('harmony', 'Как вернуть гармонию', 20)">
+                        <div class="product-price">20000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('harmony', 'Как вернуть гармонию', 20000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -355,8 +361,8 @@
                         </div>
                         <h3>Моё состояние сейчас</h3>
                         <p>Тело, разум, душа - комплексный анализ</p>
-                        <div class="product-price">15 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('state', 'Моё состояние сейчас', 15)">
+                        <div class="product-price">15000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('state', 'Моё состояние сейчас', 15000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -367,8 +373,8 @@
                         </div>
                         <h3>Три варианта судьбы</h3>
                         <p>Как сложится если выбрать один из трёх путей</p>
-                        <div class="product-price">20 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('destiny', 'Три варианта судьбы', 20)">
+                        <div class="product-price">20000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('destiny', 'Три варианта судьбы', 20000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -379,8 +385,8 @@
                         </div>
                         <h3>Путь души</h3>
                         <p>Зачем ты пришла в этот мир</p>
-                        <div class="product-price">15 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('soul-purpose', 'Путь души - зачем ты пришла', 15)">
+                        <div class="product-price">15000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('soul-purpose', 'Путь души - зачем ты пришла', 15000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -391,8 +397,8 @@
                         </div>
                         <h3>Письмо любви</h3>
                         <p>7 карт каждая строчка письма от любимого</p>
-                        <div class="product-price">20 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('love-letter', 'Письмо любви', 20)">
+                        <div class="product-price">20000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('love-letter', 'Письмо любви', 20000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -403,8 +409,8 @@
                         </div>
                         <h3>Любит или нет</h3>
                         <p>Одна карта или три для ответа</p>
-                        <div class="product-price">15 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('love-check', 'Любит или нет', 15)">
+                        <div class="product-price">15000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('love-check', 'Любит или нет', 15000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -415,8 +421,8 @@
                         </div>
                         <h3>Чего я не вижу</h3>
                         <p>Тайное предупреждение</p>
-                        <div class="product-price">20 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('hidden', 'Чего я не вижу', 20)">
+                        <div class="product-price">20000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('hidden', 'Чего я не вижу', 20000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -427,8 +433,8 @@
                         </div>
                         <h3>Совет судьбы</h3>
                         <p>Одна карта с подсказкой</p>
-                        <div class="product-price">20 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('advice', 'Совет судьбы', 20)">
+                        <div class="product-price">20000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('advice', 'Совет судьбы', 20000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -439,8 +445,8 @@
                         </div>
                         <h3>Карта дня</h3>
                         <p>Что день принесёт</p>
-                        <div class="product-price">15 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('day-card', 'Карта дня', 15)">
+                        <div class="product-price">15000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('day-card', 'Карта дня', 15000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -451,8 +457,8 @@
                         </div>
                         <h3>Путь души - предназначение</h3>
                         <p>Кто ты по предназначению</p>
-                        <div class="product-price">25 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('destiny-path', 'Путь души - предназначение', 25)">
+                        <div class="product-price">25000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('destiny-path', 'Путь души - предназначение', 25000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -463,8 +469,8 @@
                         </div>
                         <h3>Денежный поток</h3>
                         <p>Где потери, где прибыль</p>
-                        <div class="product-price">20 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('money-flow', 'Денежный поток', 20)">
+                        <div class="product-price">20000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('money-flow', 'Денежный поток', 20000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -475,8 +481,8 @@
                         </div>
                         <h3>Будущее пары</h3>
                         <p>Есть ли у отношений шанс</p>
-                        <div class="product-price">15 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('relationship', 'Будущее пары', 15)">
+                        <div class="product-price">15000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('relationship', 'Будущее пары', 15000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -487,8 +493,8 @@
                         </div>
                         <h3>Что ждёт в любви</h3>
                         <p>Появится ли кто-то новый</p>
-                        <div class="product-price">25 РПМ</div>
-                        <button class="btn-mystic" onclick="addToCart('love-future', 'Что ждёт в любви', 25)">
+                        <div class="product-price">25000 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('love-future', 'Что ждёт в любви', 25000)">
                             <i class="fas fa-cart-plus"></i> В корзину
                         </button>
                     </div>
@@ -545,8 +551,13 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Мистические Гадания. Все права защищены.</p>
+            <p>&copy; 2025 Мистические Гадания. Все права защищены.</p>
             <p>Создано с любовью к мистике и эзотерике</p>
+            <div class="contacts">
+                <p>Контакты:</p>
+                <p>@Gorkell - Telegram</p>
+                <p>@mamkis - Discord</p>
+            </div>
         </div>
     </footer>
 
