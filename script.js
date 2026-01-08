@@ -237,12 +237,87 @@ function checkout() {
 }
 
 function confirmOrder() {
-    showNotification('Заказ оформлён! Ожидайте связи в Telegram');
-    cart = [];
-    updateCartCount();
-    saveCart();
     closeModal('checkout-modal');
-    closeModal('cart-modal');
+    showOrderDetails();
+}
+
+function showOrderDetails() {
+    const orderItems = document.getElementById('order-items');
+    const orderTotal = document.getElementById('order-total');
+    
+    // Очищаем предыдущие товары
+    orderItems.innerHTML = '';
+    
+    // Добавляем товары заказа
+    let total = 0;
+    cart.forEach(item => {
+        const orderItem = document.createElement('div');
+        orderItem.className = 'order-item';
+        orderItem.innerHTML = `
+            <span class="order-item-name">${item.name}</span>
+            <span class="order-item-price">${item.price} РПМ</span>
+        `;
+        orderItems.appendChild(orderItem);
+        total += item.price;
+    });
+    
+    orderTotal.textContent = total;
+    
+    // Показываем модальное окно
+    document.getElementById('order-details-modal').style.display = 'block';
+}
+
+function submitOrder(event) {
+    event.preventDefault();
+    
+    const rpName = document.getElementById('rp-name').value;
+    const nickname = document.getElementById('nickname').value;
+    const comment = document.getElementById('comment').value;
+    const rulesAccepted = document.getElementById('rules-accept').checked;
+    
+    if (!rulesAccepted) {
+        showNotification('Необходимо принять правила поведения', 'error');
+        return;
+    }
+    
+    // Формируем сообщение для отправки
+    let orderMessage = `🔮 НОВЫЙ ЗАКАЗ 🔮\n\n`;
+    orderMessage += `👤 РП имя: ${rpName}\n`;
+    orderMessage += `🏷️ Ник: ${nickname}\n`;
+    if (comment) {
+        orderMessage += `📝 Комментарий: ${comment}\n`;
+    }
+    orderMessage += `\n🛍️ ТОВАРЫ:\n`;
+    
+    let total = 0;
+    cart.forEach(item => {
+        orderMessage += `• ${item.name} - ${item.price} РПМ\n`;
+        total += item.price;
+    });
+    
+    orderMessage += `\n💰 ИТОГО: ${total} РПМ\n`;
+    orderMessage += `⏰ Время: ${new Date().toLocaleString()}\n`;
+    orderMessage += `✅ Правила приняты`;
+    
+    // Копируем сообщение в буфер обмена
+    navigator.clipboard.writeText(orderMessage).then(() => {
+        showNotification('Заказ скопирован в буфер обмена! Отправьте в @Gorkell', 'success');
+        
+        // Очищаем корзину
+        cart = [];
+        saveCart();
+        updateCartUI();
+        
+        // Закрываем модальное окно
+        closeModal('order-details-modal');
+        
+        // Показываем финальное сообщение
+        setTimeout(() => {
+            showNotification('Спасибо за заказ! Ожидайте исполнения в течение 24 часов.', 'success');
+        }, 1000);
+    }).catch(() => {
+        showNotification('Не удалось скопировать заказ. Пожалуйста, скопируйте вручную.', 'error');
+    });
 }
 
 function showNotification(message) {
@@ -578,6 +653,16 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleMobileMenu();
         }
     });
+    
+    // Включаем/выключаем кнопку скриншота в зависимости от чекбокса
+    const rulesCheckbox = document.getElementById('rules-accept');
+    const screenshotBtn = document.getElementById('screenshot-btn');
+    
+    if (rulesCheckbox && screenshotBtn) {
+        rulesCheckbox.addEventListener('change', function() {
+            screenshotBtn.disabled = !this.checked;
+        });
+    }
     
     const observerOptions = {
         threshold: 0.1,
