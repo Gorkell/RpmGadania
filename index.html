@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мистические Гадания | Тайна Будущего</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="moon"></div>
+    
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-moon"></i>
+                <span>Мистика</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">Главная</a></li>
+                <li><a href="#about" class="nav-link">О гаданиях</a></li>
+                <li><a href="#taro-info" class="nav-link">Таро</a></li>
+                <li><a href="#astrology" class="nav-link">Астрология</a></li>
+                <li><a href="#shop" class="nav-link">Магазин</a></li>
+                <li><a href="#mediums" class="nav-link">Медиумы</a></li>
+                <li><a href="#cart" class="nav-link" onclick="showCart()"><i class="fas fa-shopping-cart"></i> (<span id="cart-count">0</span>)</a></li>
+                <li><a href="#login" class="nav-link" onclick="showLogin()"><i class="fas fa-user"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="glow">Открой</span> Врата в Будущее
+                </h1>
+                <p class="hero-subtitle">Погрузитесь в мир мистических гаданий и откройте тайны своей судьбы</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToSection('shop')">
+                        <i class="fas fa-star"></i> Заказать Гадание
+                    </button>
+                    <button class="btn-secondary" onclick="scrollToSection('about')">
+                        <i class="fas fa-info-circle"></i> Узнать Больше
+                    </button>
+                </div>
+            </div>
+            <div class="floating-orbs">
+                <div class="orb orb1"></div>
+                <div class="orb orb2"></div>
+                <div class="orb orb3"></div>
+            </div>
+        </section>
+
+        <section id="about" class="divination-section">
+            <div class="container">
+                <h2 class="section-title">О Мире Гаданий</h2>
+                <p class="section-description">Познакомьтесь с древними искусствами предсказания судьбы</p>
+                
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Что такое гадания?</h3>
+                        <p>
+                            Гадания — это древнее искусство получения информации о будущем, настоящем и прошлом 
+                            через различные символические системы. На протяжении тысячелетий люди обращались к 
+                            высшим силам за мудростью и направлением.
+                        </p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3>История предсказаний</h3>
+                        <p>
+                            От древних шаманов до современных экстрасенсов — гадания эволюционировали, 
+                            но сохранили свою суть: связь между миром людей и миром духов. 
+                            Каждая культура создала уникальные системы толкования знаков.
+                        </p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <div class="about-icon">
+                        <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Этика и ответственность</h3>
+                        <p>
+                            Истинное гадание — это не предопределение, а инструмент для самопознания. 
+                            Оно помогает увидеть возможные пути развития и сделать осознанный выбор. 
+                            Ответственность за будущее всегда остаётся за вами.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="taro-info" class="divination-section">
+            <div class="container">
+                <h2 class="section-title">Таро - Древний Мудрости</h2>
+                <p class="section-description">78 карт, хранящих секреты вселенной</p>
+                
+                <div class="taro-info-content">
+                    <div class="taro-history">
+                        <h3>История Таро</h3>
+                        <p>
+                            Таро появилось в XV веке как карточная игра в Италии, но со временем 
+                            превратилось в мощную систему эзотерических знаний. Колоды Таро содержат 
+                            78 карт, каждая из которых является символом архетипических переживаний 
+                            и жизненных ситуаций.
+                        </p>
+                        <p>
+                            Старшие Арканы (22 карты) представляют духовный путь души от Невежества 
+                            до Просветления. Младшие Арканы (56 карт) отражают повседневные 
+                            ситуации и эмоции в четырёх стихиях: Жезлы, Кубки, Мечи и Пентакли.
+                        </p>
+                    </div>
+                    
+                    <div class="taro-types">
+                        <h3>Виды раскладов</h3>
+                        <div class="spread-types">
+                            <div class="spread-type">
+                                <h4>Кельтский крест</h4>
+                                <p>Классический расклад на 10 карт для комплексного анализа ситуации</p>
+                            </div>
+                            <div class="spread-type">
+                                <h4>Три карты</h4>
+                                <p>Прошлое-настоящее-будущее или ситуация-действие-результат</p>
+                            </div>
+                            <div class="spread-type">
+                                <h4>Квадрат</h4>
+                                <p>Расклад на 4 карты для анализа конкретной сферы жизни</p>
+                            </div>
+                            <div class="spread-type">
+                                <h4>Звезда Давида</h4>
+                                <p>Сложный расклад на 7 карт для глубокого самопознания</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="taro-meaning">
+                        <h3>Как работают карты</h3>
+                        <p>
+                            Таро работает через синхронистичность — принцип осмысленных совпадений. 
+                            Карты не предопределяют будущее, а отражают энергетические потоки 
+                            и вероятности развития событий. Таролог интерпретирует символы в контексте 
+                            вопроса и интуитивно считывает информацию.
+                        </p>
+                        <p>
+                            Каждая карта имеет множество уровней значения: от бытового до духовного. 
+                            Положение карты (прямое или перевёрнутое) добавляет нюансы в толкование. 
+                            Сочетание карт создаёт уникальную историю о вашей ситуации.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="astrology" class="divination-section">
+            <div class="container">
+                <h2 class="section-title">Астрология - Язык Звёзд</h2>
+                <p class="section-description">Как планеты влияют на нашу судьбу</p>
+                
+                <div class="astrology-content">
+                    <div class="astrology-basics">
+                        <h3>Основы астрологии</h3>
+                        <p>
+                            Астрология — это древняя наука о влиянии небесных тел на жизнь человека. 
+                            Натальная карта, составленная в момент рождения, является уникальным отпечатком 
+                            вашей личности и жизненного пути.
+                        </p>
+                        <p>
+                            Солнце определяет ваше эго и жизненную цель, Луна — эмоции и интуицию, 
+                            а восходящий знак (асцендент) — то, как вас видят окружающие. 
+                            Положения планет в знаках зодиака и домах создают сложную картину вашей личности.
+                        </p>
+                    </div>
+                    
+                    <div class="zodiac-signs">
+                        <h3>Знаки Зодиака</h3>
+                        <div class="zodiac-grid">
+                            <div class="zodiac-element">
+                                <h4><i class="fas fa-fire"></i> Огонь</h4>
+                                <p>Овен, Лев, Стрелец — энергия, страсть, лидерство</p>
+                            </div>
+                            <div class="zodiac-element">
+                                <h4><i class="fas fa-tint"></i> Вода</h4>
+                                <p>Рак, Скорпион, Рыбы — эмоции, интуиция, глубина</p>
+                            </div>
+                            <div class="zodiac-element">
+                                <h4><i class="fas fa-mountain"></i> Земля</h4>
+                                <p>Телец, Дева, Козерог — практичность, стабильность, материальное</p>
+                            </div>
+                            <div class="zodiac-element">
+                                <h4><i class="fas fa-wind"></i> Воздух</h4>
+                                <p>Близнецы, Весы, Водолей — интеллект, общение, идеи</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="astrology-types">
+                        <h3>Виды астрологических прогнозов</h3>
+                        <div class="astro-services">
+                            <div class="astro-service">
+                                <h4>Натальная карта</h4>
+                                <p>Анализ личности, талантов и жизненного пути</p>
+                            </div>
+                            <div class="astro-service">
+                                <h4>Синастрия</h4>
+                                <p>Совместимость партнёров по натальным картам</p>
+                            </div>
+                            <div class="astro-service">
+                                <h4>Транзиты</h4>
+                                <p>Влияние текущих положений планет</p>
+                            </div>
+                            <div class="astro-service">
+                                <h4>Прогрессии</h4>
+                                <p>Развитие событий на ближайшие годы</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="astrology-modern">
+                        <h3>Современная астрология</h3>
+                        <p>
+                            Современная астрология сочетает древние знания с психологией. 
+                            Она помогает понять свои сильные и слабые стороны, найти подходящее время 
+                            для важных действий и гармонизировать отношения. Астрологический прогноз 
+                            — это не предопределение, а карта возможностей.
+                        </p>
+                        <p>
+                            Многие успешные люди используют астрологию для планирования бизнеса, 
+                            карьеры и личной жизни. Астрология помогает жить в гармонии с 
+                            космическими ритмами и использовать благоприятные периоды для развития.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mediums" class="divination-section">
+            <div class="container">
+                <h2 class="section-title">Лучшие Медиумы Штата РПМ</h2>
+                <p class="section-description">Познакомьтесь с нашими талантливыми экстрасенсами</p>
+                
+                <div class="mediums-grid">
+                    <div class="medium-card">
+                        <div class="medium-photo">
+                            <img src="1.png" alt="Виктория Редмур" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="photo-placeholder" style="display: none;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="medium-info">
+                            <h3>Виктория Редмур</h3>
+                            <div class="medium-title">Верховная Жрица Таро</div>
+                            <p class="medium-description">
+                                Виктория открыла свой дар в раннем детстве, когда начала видеть пророческие сны. 
+                                Её путь в мир эзотерики начался с таинственной встречи со старой цыганкой, 
+                                которая предсказала ей великое будущее. После 10 лет изучения древних манускриптов 
+                                и практики под руководством мастеров со всего мира, Виктория стала одним из самых 
+                                уважаемых медиумов штата РПМ. Её специализация — сложные расклады на Таро 
+                                и контакт с потусторонним миром через карты.
+                            </p>
+                            <div class="medium-specialties">
+                                <span class="specialty-tag">Таро</span>
+                                <span class="specialty-tag">Пророчество</span>
+                                <span class="specialty-tag">Энергетика</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="medium-card">
+                        <div class="medium-photo">
+                            <img src="2.png" alt="Евгений Редмур" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="photo-placeholder" style="display: none;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="medium-info">
+                            <h3>Евгений Редмур</h3>
+                            <div class="medium-title">Мастер Рун и Нумерологии</div>
+                            <p class="medium-description">
+                                Евгений обнаружил свои способности после загадочного исчезновения на 3 дня 
+                                в горах Алтая. Когда он вернулся, то мог читать мысли людей и видеть их прошлое. 
+                                Дед, известный целитель, обучил его древним техникам работы с рунами и числами. 
+                                За 15 лет практики Евгений помог тысячам людей найти свой путь, 
+                                расшифровать код судьбы и принять правильные решения. Его уникальный метод 
+                                сочетает скандинавские руны с китайской нумерологией.
+                            </p>
+                            <div class="medium-specialties">
+                                <span class="specialty-tag">Руны</span>
+                                <span class="specialty-tag">Нумерология</span>
+                                <span class="specialty-tag">Хиромантия</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="medium-card">
+                        <div class="medium-photo">
+                            <img src="3.png" alt="Йошуа Редмур" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="photo-placeholder" style="display: none;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="medium-info">
+                            <h3>Йошуа Редмур</h3>
+                            <div class="medium-title">Левый чувак</div>
+                            <p class="medium-description">
+                                Левый чувак, хз что он тут делает. Появился mysteriously, никто не знает откуда. 
+                                Говорит на древнем языке, который понимает только он. Иногда делает странные вещи, 
+                                но почему-то всегда получается хуево. Клиенты говорят, что он видит то, 
+                                чего не видят другие. Возможно, это инопланетянин или путешественник во времени (но скорее долбоеб). 
+                                В любом случае, если нужна помощь с темой не по сайту а какой то хуйней — Йошуа ваш человек.
+                            </p>
+                            <div class="medium-specialties">
+                                <span class="specialty-tag">Черт</span>
+                                <span class="specialty-tag">Хз</span>
+                                <span class="specialty-tag">Всё понятно</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="shop" class="divination-section">
+            <div class="container">
+                <h2 class="section-title">Мистический Магазин</h2>
+                <p class="section-description">Профессиональные гадания от опытного мастера</p>
+                
+                <div class="shop-grid">
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Как вернуть гармонию</h3>
+                        <p>Что забирает энергию и как восстановить силы</p>
+                        <div class="product-price">20 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('harmony', 'Как вернуть гармонию', 20)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3>Моё состояние сейчас</h3>
+                        <p>Тело, разум, душа - комплексный анализ</p>
+                        <div class="product-price">15 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('state', 'Моё состояние сейчас', 15)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h3>Три варианта судьбы</h3>
+                        <p>Как сложится если выбрать один из трёх путей</p>
+                        <div class="product-price">20 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('destiny', 'Три варианта судьбы', 20)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-soul"></i>
+                        </div>
+                        <h3>Путь души</h3>
+                        <p>Зачем ты пришла в этот мир</p>
+                        <div class="product-price">15 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('soul-purpose', 'Путь души - зачем ты пришла', 15)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-envelope-heart"></i>
+                        </div>
+                        <h3>Письмо любви</h3>
+                        <p>7 карт каждая строчка письма от любимого</p>
+                        <div class="product-price">20 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('love-letter', 'Письмо любви', 20)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Любит или нет</h3>
+                        <p>Одна карта или три для ответа</p>
+                        <div class="product-price">15 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('love-check', 'Любит или нет', 15)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-eye-slash"></i>
+                        </div>
+                        <h3>Чего я не вижу</h3>
+                        <p>Тайное предупреждение</p>
+                        <div class="product-price">20 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('hidden', 'Чего я не вижу', 20)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Совет судьбы</h3>
+                        <p>Одна карта с подсказкой</p>
+                        <div class="product-price">20 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('advice', 'Совет судьбы', 20)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <h3>Карта дня</h3>
+                        <p>Что день принесёт</p>
+                        <div class="product-price">15 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('day-card', 'Карта дня', 15)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Путь души - предназначение</h3>
+                        <p>Кто ты по предназначению</p>
+                        <div class="product-price">25 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('destiny-path', 'Путь души - предназначение', 25)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3>Денежный поток</h3>
+                        <p>Где потери, где прибыль</p>
+                        <div class="product-price">20 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('money-flow', 'Денежный поток', 20)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-heart-pulse"></i>
+                        </div>
+                        <h3>Будущее пары</h3>
+                        <p>Есть ли у отношений шанс</p>
+                        <div class="product-price">15 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('relationship', 'Будущее пары', 15)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-icon">
+                            <i class="fas fa-heart-circle-plus"></i>
+                        </div>
+                        <h3>Что ждёт в любви</h3>
+                        <p>Появится ли кто-то новый</p>
+                        <div class="product-price">25 РПМ</div>
+                        <button class="btn-mystic" onclick="addToCart('love-future', 'Что ждёт в любви', 25)">
+                            <i class="fas fa-cart-plus"></i> В корзину
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="crystal" class="divination-section">
+            <div class="container">
+                <h2 class="section-title">Кристаллическое Гадание</h2>
+                <p class="section-description">Выберите кристалл, который вас притягивает</p>
+                
+                <div class="crystals-grid">
+                    <div class="crystal-card" onclick="selectCrystal('amethyst')">
+                        <div class="crystal-icon amethyst">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3>Аметист</h3>
+                        <p>Духовность и интуиция</p>
+                    </div>
+                    
+                    <div class="crystal-card" onclick="selectCrystal('rose-quartz')">
+                        <div class="crystal-icon rose-quartz">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Розовый Кварц</h3>
+                        <p>Любовь и гармония</p>
+                    </div>
+                    
+                    <div class="crystal-card" onclick="selectCrystal('citrine')">
+                        <div class="crystal-icon citrine">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <h3>Цитрин</h3>
+                        <p>Процветание и успех</p>
+                    </div>
+                    
+                    <div class="crystal-card" onclick="selectCrystal('obsidian')">
+                        <div class="crystal-icon obsidian">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Обсидиан</h3>
+                        <p>Защита и очищение</p>
+                    </div>
+                </div>
+                
+                <div class="crystal-message" id="crystal-message" style="display: none;">
+                    <h3 id="crystal-title"></h3>
+                    <p id="crystal-description"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Мистические Гадания. Все права защищены.</p>
+            <p>Создано с любовью к мистике и эзотерике</p>
+        </div>
+    </footer>
+
+    <div class="modal" id="info-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>О Мистических Гаданиях</h2>
+            <p>Добро пожаловать в мир, где древние знания встречаются с современностью. Наш сайт предлагает различные виды гаданий:</p>
+            <ul>
+                <li><strong>Таро:</strong> Могущественная система из 78 карт для анализа жизненных ситуаций</li>
+                <li><strong>Астрология:</strong> Наука о влиянии планет и звёзд на вашу судьбу</li>
+                <li><strong>Профессиональные гадания:</strong> Индивидуальные консультации от опытных медиумов</li>
+                <li><strong>Медиумы РПМ:</strong> Лучшие специалисты штата с уникальными дарованиями</li>
+            </ul>
+            <p>Помните: гадания - это инструмент для самопознания, а не предопределение.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('login-modal')">&times;</span>
+            <h2>Вход в систему</h2>
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Имя пользователя:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <button type="submit" class="btn-mystic">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="cart-modal">
+        <div class="modal-content cart-modal">
+            <span class="close" onclick="closeModal('cart-modal')">&times;</span>
+            <h2>Корзина</h2>
+            <div id="cart-items"></div>
+            <div class="cart-summary">
+                <div class="total">Итого: <span id="cart-total">0</span> РПМ</div>
+                <button class="btn-primary" onclick="checkout()">
+                    <i class="fas fa-credit-card"></i> Оформить заказ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('checkout-modal')">&times;</span>
+            <h2>Оформление заказа</h2>
+            <div class="checkout-info">
+                <h3>Инструкция по оплате:</h3>
+                <p><strong>Все цены указаны в долларах РПМ (Российский Платёжный Модуль).</strong></p>
+                <ol>
+                    <li>Сделайте скриншот вашей корзины с итоговой суммой</li>
+                    <li>Отправьте скриншот и ваш контакт для связи в Telegram:</li>
+                    <li><strong>@Gorkell</strong> - для оплаты и консультаций</li>
+                    <li><strong>@mamkis</strong> - техническая поддержка</li>
+                </ol>
+                <div class="payment-contacts">
+                    <div class="contact-item">
+                        <i class="fab fa-telegram"></i>
+                        <span>@Gorkell - оплата</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-telegram"></i>
+                        <span>@mamkis - поддержка</span>
+                    </div>
+                </div>
+                <p class="payment-note">После подтверждения оплаты вы получите своё гадание в течение 24 часов.</p>
+            </div>
+            <div class="checkout-actions">
+                <button class="btn-secondary" onclick="closeModal('checkout-modal')">Закрыть</button>
+                <button class="btn-primary" onclick="confirmOrder()">
+                    <i class="fas fa-check"></i> Я понял(а)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
