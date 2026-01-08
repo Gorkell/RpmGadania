@@ -1339,10 +1339,168 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.astro-service p {
+.order-details-modal {
+    max-width: 900px;
+    width: 95%;
+}
+
+.order-details-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.order-summary {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.order-summary h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+#order-items {
+    margin-bottom: 1rem;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.order-item-name {
+    font-weight: 500;
+}
+
+.order-item-price {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.order-total {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-align: right;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid rgba(245, 158, 11, 0.3);
+}
+
+.order-form {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.order-form h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+#order-form .form-group {
+    margin-bottom: 1rem;
+}
+
+#order-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--light-text);
+    font-weight: 500;
+}
+
+#order-form input,
+#order-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--light-text);
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#order-form input:focus,
+#order-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+}
+
+#order-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.rules-checkbox {
+    margin: 1.5rem 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    line-height: 1.5;
+    color: var(--light-text);
     font-size: 0.9rem;
-    opacity: 0.8;
-    line-height: 1.4;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    margin-top: 2px;
+}
+
+.checkmark {
+    display: none;
+}
+
+#screenshot-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--accent-color), #d97706);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#screenshot-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+}
+
+#screenshot-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #666, #444);
 }
 
 @media (max-width: 768px) {
@@ -1448,7 +1606,28 @@ body {
         padding: 3rem 0;
     }
     
-    .form-group input {
-        font-size: 16px;
+    .order-details-modal {
+        max-width: 95%;
+        width: 95%;
+    }
+    
+    .order-details-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .order-summary,
+    .order-form {
+        padding: 1rem;
+    }
+    
+    .checkbox-label {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+    
+    #screenshot-btn {
+        font-size: 0.9rem;
+        padding: 0.8rem;
     }
 }
