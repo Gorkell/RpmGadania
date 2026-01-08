@@ -608,9 +608,9 @@
                 <p><strong>Все цены указаны в долларах РПМ (Российский Платёжный Модуль).</strong></p>
                 <ol>
                     <li>Сделайте скриншот вашей корзины с итоговой суммой</li>
-                    <li>Отправьте скриншот и ваш контакт для связи в Telegram:</li>
-                    <li><strong>@Gorkell</strong> - для оплаты и консультаций</li>
-                    <li><strong>@mamkis</strong> - техническая поддержка</li>
+                    <p>Для покупки сделайте скриншот заказа и отправьте в Telegram:</p>
+            <p><strong>@Gorkell</strong> - для оплаты</p>
+            <p><strong>@mamkis</strong> - поддержка (ДС)</p>
                 </ol>
                 <div class="payment-contacts">
                     <div class="contact-item">
@@ -619,7 +619,7 @@
                     </div>
                     <div class="contact-item">
                         <i class="fab fa-telegram"></i>
-                        <span>@mamkis - поддержка</span>
+                        <span>@mamkis - поддержка (ДС)</span>
                     </div>
                 </div>
                 <p class="payment-note">После подтверждения оплаты вы получите своё гадание в течение 24 часов.</p>
@@ -629,6 +629,47 @@
                 <button class="btn-primary" onclick="confirmOrder()">
                     <i class="fas fa-check"></i> Я понял(а)
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="order-details-modal">
+        <div class="modal-content order-details-modal">
+            <span class="close" onclick="closeModal('order-details-modal')">&times;</span>
+            <h2>Детали заказа</h2>
+            <div class="order-details-container">
+                <div class="order-summary">
+                    <h3>Ваш заказ:</h3>
+                    <div id="order-items"></div>
+                    <div class="order-total">Итого: <span id="order-total">0</span> РПМ</div>
+                </div>
+                <div class="order-form">
+                    <h3>Информация для заказа:</h3>
+                    <form id="order-form" onsubmit="submitOrder(event)">
+                        <div class="form-group">
+                            <label for="rp-name">РП имя:</label>
+                            <input type="text" id="rp-name" required placeholder="Введите ваше РП имя">
+                        </div>
+                        <div class="form-group">
+                            <label for="nickname">Ник:</label>
+                            <input type="text" id="nickname" required placeholder="Введите ваш ник">
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Комментарий (не обязательно):</label>
+                            <textarea id="comment" rows="3" placeholder="Дополнительная информация"></textarea>
+                        </div>
+                        <div class="form-group rules-checkbox">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rules-accept" required>
+                                <span class="checkmark"></span>
+                                Я принимаю то, что я не буду оскорблять сотрудников, применять физические действия, угрожать, использовать нецензурную лексику, нарушать правила сервера и вести себя неуважительно по отношению к персоналу и другим клиентам. В случае нарушения правил заказа будут отменены без возврата средств.</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-primary" id="screenshot-btn" disabled>
+                            <i class="fas fa-camera"></i> Скриншот сделан
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
