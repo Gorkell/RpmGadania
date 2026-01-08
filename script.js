@@ -643,6 +643,409 @@ document.head.appendChild(style);
 document.addEventListener('DOMContentLoaded', function() {
     loadCart();
     
+    // Создание частиц и огоньков
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const firefliesContainer = document.getElementById('fireflies');
+        
+        // Создаём частицы
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Создаём огоньки
+        for (let i = 0; i < 8; i++) {
+            const firefly = document.createElement('div');
+            firefly.className = 'firefly';
+            firefly.style.left = Math.random() * 100 + '%';
+            firefly.style.top = Math.random() * 100 + '%';
+            firefly.style.animationDelay = Math.random() * 25 + 's';
+            firefly.style.animationDuration = (20 + Math.random() * 10) + 's';
+            firefliesContainer.appendChild(firefly);
+        }
+    }
+    
+    createParticles();
+    
+    // Создание летающих элементов для секций
+    function createFlyingElements() {
+        let taroInterval = null;
+        let astrologyInterval = null;
+        let smileyInterval = null;
+        let isTaroVisible = false;
+        let isAstrologyVisible = false;
+        
+        // Летающие карты для Таро
+        function createFlyingCard() {
+            const taroCards = document.getElementById('taro-cards');
+            if (!taroCards) return;
+            
+            const card = document.createElement('div');
+            card.className = 'flying-card';
+            
+            // Случайный символ карты
+            const symbols = ['☉', '☽', '♃', '♄', '♀', '♂', '☊', '☋', '⚸', '⚳'];
+            const symbol = document.createElement('div');
+            symbol.className = 'card-symbol';
+            symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            card.appendChild(symbol);
+            
+            // Случайный выбор направления полёта
+            const isReverse = Math.random() < 0.5;
+            if (isReverse) {
+                card.classList.add('reverse');
+            }
+            
+            // Случайная задержка
+            card.style.animationDelay = Math.random() * 2 + 's';
+            
+            taroCards.appendChild(card);
+            
+            // Запускаем анимацию
+            setTimeout(() => {
+                card.classList.add('active');
+            }, 100);
+            
+            // Добавляем событие окончания анимации
+            card.addEventListener('animationend', (event) => {
+                if (event.animationName === 'fly-card' || event.animationName === 'fly-card-reverse') {
+                    // Удаляем карту только после завершения анимации
+                    card.remove();
+                }
+            });
+            
+            // Резервное удаление на случай, если событие не сработает
+            setTimeout(() => {
+                if (card.parentNode) {
+                    card.remove();
+                }
+            }, 17000); // 15с + 2с задержка + 2с запас
+        }
+        
+        // Летающие звёзды для Астрологии
+        function createFlyingStar() {
+            const astrologyStars = document.getElementById('astrology-stars');
+            if (!astrologyStars) return;
+            
+            const star = document.createElement('div');
+            star.className = 'flying-star';
+            
+            // Случайная задержка
+            star.style.animationDelay = Math.random() * 3 + 's';
+            
+            astrologyStars.appendChild(star);
+            
+            // Запускаем анимацию
+            setTimeout(() => {
+                star.classList.add('active');
+            }, 100);
+            
+            // Удаляем после анимации
+            setTimeout(() => {
+                star.remove();
+            }, 8000);
+        }
+        
+        // Рисование смайлика из звёзд
+        function drawSmiley() {
+            const astrologyStars = document.getElementById('astrology-stars');
+            if (!astrologyStars) return;
+            
+            // Координаты для смайлика (относительно центра секции)
+            const smileyPoints = [
+                // Голова (круг)
+                {x: 50, y: 30}, {x: 55, y: 28}, {x: 60, y: 27}, {x: 65, y: 27}, {x: 70, y: 28}, {x: 75, y: 30},
+                {x: 78, y: 33}, {x: 80, y: 37}, {x: 80, y: 42}, {x: 78, y: 47}, {x: 75, y: 52}, {x: 70, y: 55},
+                {x: 65, y: 57}, {x: 60, y: 58}, {x: 55, y: 58}, {x: 50, y: 57}, {x: 45, y: 55}, {x: 40, y: 52},
+                {x: 37, y: 47}, {x: 35, y: 42}, {x: 35, y: 37}, {x: 37, y: 33}, {x: 40, y: 30}, {x: 45, y: 28},
+                
+                // Глаза
+                {x: 45, y: 40}, {x: 55, y: 40},
+                
+                // Улыбка
+                {x: 42, y: 48}, {x: 44, y: 50}, {x: 46, y: 51}, {x: 48, y: 52}, {x: 50, y: 52},
+                {x: 52, y: 52}, {x: 54, y: 51}, {x: 56, y: 50}, {x: 58, y: 48}
+            ];
+            
+            const stars = [];
+            
+            // Создаём звёзды для смайлика
+            smileyPoints.forEach((point, index) => {
+                setTimeout(() => {
+                    const star = document.createElement('div');
+                    star.className = 'smiley-star';
+                    star.style.left = point.x + '%';
+                    star.style.top = point.y + '%';
+                    
+                    astrologyStars.appendChild(star);
+                    stars.push(star);
+                    
+                    // Запускаем анимацию рисования
+                    setTimeout(() => {
+                        star.classList.add('drawing');
+                    }, 50);
+                }, index * 100); // Каждая звезда появляется с задержкой 100мс
+            });
+            
+            // Запускаем затухание через 5 секунд
+            setTimeout(() => {
+                stars.forEach((star, index) => {
+                    setTimeout(() => {
+                        star.classList.remove('drawing');
+                        star.classList.add('fading');
+                        
+                        // Удаляем звезду после затухания
+                        setTimeout(() => {
+                            star.remove();
+                        }, 2000);
+                    }, index * 50);
+                });
+            }, 5000);
+        }
+        
+        // Создание фоновых созвездий
+        function createBackgroundConstellations() {
+            const bgConstellations = document.getElementById('bg-constellations');
+            if (!bgConstellations) return;
+            
+            // Определения созвездий для фона
+            const constellations = [
+                {
+                    name: 'orion',
+                    className: 'bg-constellation-orion',
+                    stars: [
+                        {x: 0, y: 0}, {x: 15, y: -10}, {x: 30, y: 0},
+                        {x: 7, y: 15}, {x: 22, y: 15}, {x: 15, y: 30},
+                        {x: 0, y: 40}, {x: 30, y: 40}
+                    ],
+                    lines: [[0,1], [1,2], [0,3], [2,5], [3,4], [4,5], [3,6], [5,7]]
+                },
+                {
+                    name: 'cassiopeia',
+                    className: 'bg-constellation-cassiopeia',
+                    stars: [
+                        {x: 0, y: 15}, {x: 10, y: 0}, {x: 20, y: 10},
+                        {x: 30, y: 0}, {x: 40, y: 15}
+                    ],
+                    lines: [[0,1], [1,2], [2,3], [3,4]]
+                },
+                {
+                    name: 'scorpius',
+                    className: 'bg-constellation-scorpius',
+                    stars: [
+                        {x: 0, y: 0}, {x: 8, y: 5}, {x: 15, y: 3},
+                        {x: 22, y: 8}, {x: 30, y: 12}, {x: 37, y: 10},
+                        {x: 42, y: 18}, {x: 40, y: 25}, {x: 32, y: 22}
+                    ],
+                    lines: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,7], [7,8]]
+                },
+                {
+                    name: 'leo',
+                    className: 'bg-constellation-leo',
+                    stars: [
+                        {x: 0, y: 20}, {x: 10, y: 10}, {x: 20, y: 5},
+                        {x: 30, y: 10}, {x: 35, y: 20}, {x: 30, y: 30},
+                        {x: 20, y: 35}, {x: 10, y: 30}, {x: 5, y: 25}
+                    ],
+                    lines: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,7], [7,8], [8,0]]
+                },
+                {
+                    name: 'gemini',
+                    className: 'bg-constellation-gemini',
+                    stars: [
+                        {x: 0, y: 0}, {x: 5, y: 10}, {x: 10, y: 20},
+                        {x: 15, y: 25}, {x: 20, y: 20}, {x: 25, y: 10},
+                        {x: 30, y: 0}, {x: 25, y: -10}, {x: 20, y: -20},
+                        {x: 15, y: -25}, {x: 10, y: -20}, {x: 5, y: -10}
+                    ],
+                    lines: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,7], [7,8], [8,9], [9,10], [10,11], [11,0]]
+                },
+                {
+                    name: 'virgo',
+                    className: 'bg-constellation-virgo',
+                    stars: [
+                        {x: 0, y: 0}, {x: 8, y: -5}, {x: 15, y: -8},
+                        {x: 22, y: -5}, {x: 25, y: 5}, {x: 20, y: 15},
+                        {x: 12, y: 20}, {x: 5, y: 15}, {x: 0, y: 8}
+                    ],
+                    lines: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,7], [7,8], [8,0]]
+                },
+                {
+                    name: 'libra',
+                    className: 'bg-constellation-libra',
+                    stars: [
+                        {x: 0, y: 10}, {x: 10, y: 5}, {x: 20, y: 0},
+                        {x: 30, y: 5}, {x: 40, y: 10}, {x: 30, y: 15},
+                        {x: 20, y: 20}, {x: 10, y: 15}
+                    ],
+                    lines: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,7], [7,0]]
+                },
+                {
+                    name: 'sagittarius',
+                    className: 'bg-constellation-sagittarius',
+                    stars: [
+                        {x: 0, y: 0}, {x: 10, y: -8}, {x: 20, y: -5},
+                        {x: 30, y: 0}, {x: 35, y: 10}, {x: 25, y: 15},
+                        {x: 15, y: 12}, {x: 5, y: 8}
+                    ],
+                    lines: [[0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,7], [7,0]]
+                }
+            ];
+            
+            // Создаём каждое созвездие
+            constellations.forEach(constellation => {
+                const constellationElement = document.createElement('div');
+                constellationElement.className = `bg-constellation ${constellation.className}`;
+                constellationElement.id = `bg-constellation-${constellation.name}`;
+                
+                // Создаём звёзды
+                constellation.stars.forEach((star, index) => {
+                    const starElement = document.createElement('div');
+                    starElement.className = 'bg-constellation-star';
+                    starElement.style.left = star.x + 'px';
+                    starElement.style.top = star.y + 'px';
+                    constellationElement.appendChild(starElement);
+                });
+                
+                // Создаём линии
+                constellation.lines.forEach((line, index) => {
+                    const lineElement = document.createElement('div');
+                    lineElement.className = 'bg-constellation-line';
+                    
+                    const star1 = constellation.stars[line[0]];
+                    const star2 = constellation.stars[line[1]];
+                    
+                    const dx = star2.x - star1.x;
+                    const dy = star2.y - star1.y;
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                    
+                    lineElement.style.width = length + 'px';
+                    lineElement.style.left = star1.x + 'px';
+                    lineElement.style.top = star1.y + 'px';
+                    lineElement.style.transform = `rotate(${angle}deg)`;
+                    
+                    constellationElement.appendChild(lineElement);
+                });
+                
+                bgConstellations.appendChild(constellationElement);
+            });
+            
+            // Анимация появления созвездий
+            function animateBackgroundConstellations() {
+                const bgConstellationElements = document.querySelectorAll('.bg-constellation');
+                let currentIndex = 0;
+                
+                function showNextConstellation() {
+                    // Скрываем все созвездия
+                    bgConstellationElements.forEach(c => c.classList.remove('visible'));
+                    
+                    // Показываем случайное созвездие
+                    const randomIndex = Math.floor(Math.random() * bgConstellationElements.length);
+                    bgConstellationElements[randomIndex].classList.add('visible');
+                }
+                
+                // Показываем первое созвездие сразу
+                showNextConstellation();
+                
+                // Меняем созвездия каждые 15 секунд
+                setInterval(showNextConstellation, 15000);
+            }
+            
+            // Запускаем анимацию
+            setTimeout(animateBackgroundConstellations, 2000);
+        }
+        
+        // Наблюдаем за прокруткой для запуска анимаций
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.id === 'taro-info' && !isTaroVisible) {
+                        isTaroVisible = true;
+                        // Запускаем карты для Таро сразу
+                        createFlyingCard();
+                        setTimeout(() => createFlyingCard(), 4000);
+                        setTimeout(() => createFlyingCard(), 8000);
+                        
+                        // Устанавливаем интервал 25 секунд
+                        taroInterval = setInterval(() => {
+                            createFlyingCard();
+                            setTimeout(() => createFlyingCard(), 4000);
+                            setTimeout(() => createFlyingCard(), 8000);
+                        }, 25000);
+                        
+                    } else if (entry.target.id === 'astrology' && !isAstrologyVisible) {
+                        isAstrologyVisible = true;
+                        // Создаём фоновые созвездия
+                        createBackgroundConstellations();
+                        
+                        // Запускаем звёзды для Астрологии сразу
+                        createFlyingStar();
+                        setTimeout(() => createFlyingStar(), 1500);
+                        setTimeout(() => createFlyingStar(), 3000);
+                        setTimeout(() => createFlyingStar(), 4500);
+                        
+                        // Устанавливаем интервал 20 секунд для обычных звёзд
+                        astrologyInterval = setInterval(() => {
+                            createFlyingStar();
+                            setTimeout(() => createFlyingStar(), 1500);
+                            setTimeout(() => createFlyingStar(), 3000);
+                            setTimeout(() => createFlyingStar(), 4500);
+                        }, 20000);
+                        
+                        // Устанавливаем интервал 1 минута для смайлика
+                        smileyInterval = setInterval(() => {
+                            drawSmiley();
+                        }, 60000);
+                        
+                        // Запускаем первый смайлик через 10 секунд
+                        setTimeout(() => {
+                            drawSmiley();
+                        }, 10000);
+                    }
+                } else {
+                    // Если секция скрыта, останавливаем интервалы
+                    if (entry.target.id === 'taro-info') {
+                        isTaroVisible = false;
+                        if (taroInterval) {
+                            clearInterval(taroInterval);
+                            taroInterval = null;
+                        }
+                    } else if (entry.target.id === 'astrology') {
+                        isAstrologyVisible = false;
+                        if (astrologyInterval) {
+                            clearInterval(astrologyInterval);
+                            astrologyInterval = null;
+                        }
+                        if (smileyInterval) {
+                            clearInterval(smileyInterval);
+                            smileyInterval = null;
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Наблюдаем за секциями
+        const taroSection = document.getElementById('taro-info');
+        const astrologySection = document.getElementById('astrology');
+        
+        if (taroSection) observer.observe(taroSection);
+        if (astrologySection) observer.observe(astrologySection);
+    }
+    
+    createFlyingElements();
+    
     // Закрываем мобильное меню при клике вне его
     document.addEventListener('click', function(event) {
         const navbar = document.querySelector('.navbar');
