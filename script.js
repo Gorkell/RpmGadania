@@ -1091,35 +1091,86 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Функции для рейтинга комментариев
 function setRating(rating) {
+    console.log('setRating вызвана с rating:', rating);
+    
     // Ищем поле для ввода комментария Giscus
-    setTimeout(() => {
-        const commentTextarea = document.querySelector('textarea[placeholder*="Напишите комментарий"], textarea[placeholder*="Leave a comment"], textarea[aria-label*="comment"]');
+    const findCommentTextarea = () => {
+        // Пробуем разные селекторы для поиска textarea
+        const selectors = [
+            'textarea[placeholder*="Напишите комментарий"]',
+            'textarea[placeholder*="Leave a comment"]',
+            'textarea[aria-label*="comment"]',
+            'textarea[placeholder*="comment"]',
+            'textarea',
+            'input[type="text"]',
+            '.giscus-input'
+        ];
         
-        if (commentTextarea) {
-            const ratingText = `Оценка: ${rating}/5`;
-            
-            // Если в поле уже есть текст, добавляем оценку в начало
-            if (commentTextarea.value.trim()) {
-                commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
-            } else {
-                commentTextarea.value = ratingText;
+        for (let selector of selectors) {
+            const element = document.querySelector(selector);
+            if (element) {
+                console.log('Найден элемент:', selector, element);
+                return element;
             }
-            
-            // Фокус на поле комментария
-            commentTextarea.focus();
-            
-            // Добавляем визуальную обратную связь
-            showNotification(`Оценка ${rating}/5 добавлена в комментарий`);
-            
-            // Подсвечиваем выбранный рейтинг
-            highlightRatingButton(rating);
-        } else {
-            // Если поле не найдено, пробуем через небольшую задержку
-            setTimeout(() => {
-                setRating(rating);
-            }, 1000);
         }
-    }, 500);
+        return null;
+    };
+    
+    // Пробуем найти поле сразу
+    let commentTextarea = findCommentTextarea();
+    
+    if (commentTextarea) {
+        const ratingText = `Оценка: ${rating}/5`;
+        
+        // Если в поле уже есть текст, добавляем оценку в начало
+        if (commentTextarea.value.trim()) {
+            commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
+        } else {
+            commentTextarea.value = ratingText;
+        }
+        
+        // Фокус на поле комментария
+        commentTextarea.focus();
+        
+        // Добавляем визуальную обратную связь
+        showNotification(`Оценка ${rating}/5 добавлена в комментарий`);
+        
+        // Подсвечиваем выбранный рейтинг
+        highlightRatingButton(rating);
+    } else {
+        // Если поле не найдено, ждём загрузки Giscus
+        console.log('Поле комментария не найдено, ждём загрузки Giscus...');
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        const waitForGiscus = () => {
+            attempts++;
+            commentTextarea = findCommentTextarea();
+            
+            if (commentTextarea) {
+                console.log('Поле найдено после', attempts, 'попыток');
+                const ratingText = `Оценка: ${rating}/5`;
+                
+                if (commentTextarea.value.trim()) {
+                    commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
+                } else {
+                    commentTextarea.value = ratingText;
+                }
+                
+                commentTextarea.focus();
+                showNotification(`Оценка ${rating}/5 добавлена в комментарий`);
+                highlightRatingButton(rating);
+            } else if (attempts < maxAttempts) {
+                console.log('Попытка', attempts, 'из', maxAttempts);
+                setTimeout(waitForGiscus, 1000);
+            } else {
+                console.error('Не удалось найти поле для комментария Giscus');
+                showNotification('Не удалось найти поле для комментария. Попробуйте обновить страницу.');
+            }
+        };
+        
+        setTimeout(waitForGiscus, 1000);
+    }
 }
 
 function highlightRatingButton(rating) {
