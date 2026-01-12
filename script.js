@@ -1088,3 +1088,76 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(section);
     });
 });
+
+// Функции для рейтинга комментариев
+function setRating(rating) {
+    // Ищем поле для ввода комментария Giscus
+    setTimeout(() => {
+        const commentTextarea = document.querySelector('textarea[placeholder*="Напишите комментарий"], textarea[placeholder*="Leave a comment"], textarea[aria-label*="comment"]');
+        
+        if (commentTextarea) {
+            const ratingText = `Оценка: ${rating}/5`;
+            
+            // Если в поле уже есть текст, добавляем оценку в начало
+            if (commentTextarea.value.trim()) {
+                commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
+            } else {
+                commentTextarea.value = ratingText;
+            }
+            
+            // Фокус на поле комментария
+            commentTextarea.focus();
+            
+            // Добавляем визуальную обратную связь
+            showNotification(`Оценка ${rating}/5 добавлена в комментарий`);
+            
+            // Подсвечиваем выбранный рейтинг
+            highlightRatingButton(rating);
+        } else {
+            // Если поле не найдено, пробуем через небольшую задержку
+            setTimeout(() => {
+                setRating(rating);
+            }, 1000);
+        }
+    }, 500);
+}
+
+function highlightRatingButton(rating) {
+    // Убираем подсветку со всех кнопок
+    document.querySelectorAll('.rating-btn').forEach(btn => {
+        btn.style.background = '';
+        btn.style.color = '';
+    });
+    
+    // Подсвечиваем выбранную кнопку
+    const selectedBtn = document.querySelector(`.rating-btn:nth-child(${rating})`);
+    if (selectedBtn) {
+        selectedBtn.style.background = 'var(--accent-color)';
+        selectedBtn.style.color = 'var(--darker-bg)';
+    }
+}
+
+// Автоматическая подсветка при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // Следим за появлением Giscus
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && node.querySelector) {
+                        const giscusFrame = node.querySelector('iframe[src*="giscus"]');
+                        if (giscusFrame) {
+                            console.log('Giscus загружен');
+                            observer.disconnect();
+                        }
+                    }
+                });
+            }
+        });
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+});
