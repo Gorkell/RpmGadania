@@ -1264,6 +1264,12 @@ body {
     padding-top: 2rem;
 }
 
+.utterances-container {
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+    padding-top: 2rem;
+}
+
 /* Адаптация Giscus под тёмную тему */
 .comments-section iframe {
     border-radius: 10px;
