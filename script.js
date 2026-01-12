@@ -1104,7 +1104,6 @@ function setRating(rating) {
             'input[type="text"]',
             '.utterances-textarea',
             '.commentbox-textarea',
-            'iframe',
             '.comment-form textarea'
         ];
         
@@ -1117,12 +1116,25 @@ function setRating(rating) {
         }
         
         // Ищем внутри iframe (Utterances использует iframe)
-        const iframe = document.querySelector('iframe[src*="utteranc"]');
-        if (iframe && iframe.contentDocument) {
-            const iframeTextarea = iframe.contentDocument.querySelector('textarea');
-            if (iframeTextarea) {
-                console.log('Найден textarea в iframe:', iframeTextarea);
-                return iframeTextarea;
+        const iframes = document.querySelectorAll('iframe');
+        for (let iframe of iframes) {
+            try {
+                if (iframe.src && iframe.src.includes('utteranc')) {
+                    console.log('Найден Utterances iframe:', iframe);
+                    // Проверяем доступ к iframe
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        const iframeTextarea = iframeDoc.querySelector('textarea');
+                        if (iframeTextarea) {
+                            console.log('Найден textarea в iframe:', iframeTextarea);
+                            return iframeTextarea;
+                        }
+                    } catch (e) {
+                        console.log('Нет доступа к iframe (CORS):', e);
+                    }
+                }
+            } catch (e) {
+                console.log('Ошибка при проверке iframe:', e);
             }
         }
         
@@ -1154,7 +1166,7 @@ function setRating(rating) {
         // Если поле не найдено, ждём загрузки Utterances
         console.log('Поле комментария не найдено, ждём загрузки Utterances...');
         let attempts = 0;
-        const maxAttempts = 10;
+        const maxAttempts = 15;
         
         const waitForUtterances = () => {
             attempts++;
@@ -1178,11 +1190,41 @@ function setRating(rating) {
                 setTimeout(waitForUtterances, 1000);
             } else {
                 console.error('Не удалось найти поле для комментария Utterances');
-                showNotification('Не удалось найти поле для комментария. Попробуйте обновить страницу.');
+                // Альтернативный метод - копируем в буфер обмена
+                copyRatingToClipboard(rating);
             }
         };
         
         setTimeout(waitForUtterances, 1000);
+    }
+}
+
+function copyRatingToClipboard(rating) {
+    const ratingText = `Оценка: ${rating}/5`;
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(ratingText).then(() => {
+            showNotification(`Оценка ${rating}/5 скопирована в буфер обмена. Вставьте в комментарий вручную.`);
+            highlightRatingButton(rating);
+        }).catch(err => {
+            console.error('Ошибка копирования:', err);
+            showNotification('Не удалось добавить оценку. Скопируйте текст вручную: ' + ratingText);
+        });
+    } else {
+        // Fallback для старых браузеров
+        const textArea = document.createElement('textarea');
+        textArea.value = ratingText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showNotification(`Оценка ${rating}/5 скопирована в буфер обмена. Вставьте в комментарий вручную.`);
+            highlightRatingButton(rating);
+        } catch (err) {
+            console.error('Ошибка копирования:', err);
+            showNotification('Не удалось добавить оценку. Скопируйте текст вручную: ' + ratingText);
+        }
+        document.body.removeChild(textArea);
     }
 }
 
