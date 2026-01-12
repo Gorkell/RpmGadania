@@ -1093,17 +1093,19 @@ document.addEventListener('DOMContentLoaded', function() {
 function setRating(rating) {
     console.log('setRating вызвана с rating:', rating);
     
-    // Ищем поле для ввода комментария Giscus
+    // Ищем поле для ввода комментария Utterances
     const findCommentTextarea = () => {
-        // Пробуем разные селекторы для поиска textarea
+        // Пробуем разные селекторы для поиска textarea в Utterances
         const selectors = [
-            'textarea[placeholder*="Напишите комментарий"]',
             'textarea[placeholder*="Leave a comment"]',
-            'textarea[aria-label*="comment"]',
             'textarea[placeholder*="comment"]',
+            'textarea[aria-label*="comment"]',
             'textarea',
             'input[type="text"]',
-            '.giscus-input'
+            '.utterances-textarea',
+            '.commentbox-textarea',
+            'iframe',
+            '.comment-form textarea'
         ];
         
         for (let selector of selectors) {
@@ -1113,6 +1115,17 @@ function setRating(rating) {
                 return element;
             }
         }
+        
+        // Ищем внутри iframe (Utterances использует iframe)
+        const iframe = document.querySelector('iframe[src*="utteranc"]');
+        if (iframe && iframe.contentDocument) {
+            const iframeTextarea = iframe.contentDocument.querySelector('textarea');
+            if (iframeTextarea) {
+                console.log('Найден textarea в iframe:', iframeTextarea);
+                return iframeTextarea;
+            }
+        }
+        
         return null;
     };
     
@@ -1123,7 +1136,7 @@ function setRating(rating) {
         const ratingText = `Оценка: ${rating}/5`;
         
         // Если в поле уже есть текст, добавляем оценку в начало
-        if (commentTextarea.value.trim()) {
+        if (commentTextarea.value && commentTextarea.value.trim()) {
             commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
         } else {
             commentTextarea.value = ratingText;
@@ -1138,12 +1151,12 @@ function setRating(rating) {
         // Подсвечиваем выбранный рейтинг
         highlightRatingButton(rating);
     } else {
-        // Если поле не найдено, ждём загрузки Giscus
-        console.log('Поле комментария не найдено, ждём загрузки Giscus...');
+        // Если поле не найдено, ждём загрузки Utterances
+        console.log('Поле комментария не найдено, ждём загрузки Utterances...');
         let attempts = 0;
         const maxAttempts = 10;
         
-        const waitForGiscus = () => {
+        const waitForUtterances = () => {
             attempts++;
             commentTextarea = findCommentTextarea();
             
@@ -1151,7 +1164,7 @@ function setRating(rating) {
                 console.log('Поле найдено после', attempts, 'попыток');
                 const ratingText = `Оценка: ${rating}/5`;
                 
-                if (commentTextarea.value.trim()) {
+                if (commentTextarea.value && commentTextarea.value.trim()) {
                     commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
                 } else {
                     commentTextarea.value = ratingText;
@@ -1162,14 +1175,14 @@ function setRating(rating) {
                 highlightRatingButton(rating);
             } else if (attempts < maxAttempts) {
                 console.log('Попытка', attempts, 'из', maxAttempts);
-                setTimeout(waitForGiscus, 1000);
+                setTimeout(waitForUtterances, 1000);
             } else {
-                console.error('Не удалось найти поле для комментария Giscus');
+                console.error('Не удалось найти поле для комментария Utterances');
                 showNotification('Не удалось найти поле для комментария. Попробуйте обновить страницу.');
             }
         };
         
-        setTimeout(waitForGiscus, 1000);
+        setTimeout(waitForUtterances, 1000);
     }
 }
 
