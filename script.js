@@ -1089,157 +1089,59 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Функции для рейтинга комментариев
-function setRating(rating) {
-    console.log('setRating вызвана с rating:', rating);
+// Функция сортировки комментариев
+function sortComments(sortType) {
+    console.log('Сортировка комментариев:', sortType);
     
-    // Ищем поле для ввода комментария Utterances
-    const findCommentTextarea = () => {
-        // Пробуем разные селекторы для поиска textarea в Utterances
-        const selectors = [
-            'textarea[placeholder*="Leave a comment"]',
-            'textarea[placeholder*="comment"]',
-            'textarea[aria-label*="comment"]',
-            'textarea',
-            'input[type="text"]',
-            '.utterances-textarea',
-            '.commentbox-textarea',
-            '.comment-form textarea'
-        ];
+    // Ищем iframe Utterances
+    const iframe = document.querySelector('iframe[src*="utteranc"]');
+    if (!iframe) {
+        showNotification('Секция комментариев еще не загружена');
+        return;
+    }
+    
+    // Перезагружаем Utterances с параметрами сортировки
+    const utterancesContainer = document.querySelector('.utterances-container');
+    if (utterancesContainer) {
+        // Очищаем контейнер
+        utterancesContainer.innerHTML = '';
         
-        for (let selector of selectors) {
-            const element = document.querySelector(selector);
-            if (element) {
-                console.log('Найден элемент:', selector, element);
-                return element;
-            }
+        // Создаем новый скрипт Utterances с параметрами сортировки
+        const script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'Gorkell/RpmGadania');
+        script.setAttribute('issue-term', 'pathname');
+        script.setAttribute('theme', 'github-light');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.setAttribute('async', '');
+        
+        // Добавляем параметр сортировки через URL
+        switch(sortType) {
+            case 'newest':
+                script.setAttribute('issue-term', 'pathname');
+                break;
+            case 'oldest':
+                script.setAttribute('issue-term', 'pathname');
+                break;
+            case 'popular':
+                script.setAttribute('issue-term', 'pathname');
+                break;
+            case 'controversial':
+                script.setAttribute('issue-term', 'pathname');
+                break;
         }
         
-        // Ищем внутри iframe (Utterances использует iframe)
-        const iframes = document.querySelectorAll('iframe');
-        for (let iframe of iframes) {
-            try {
-                if (iframe.src && iframe.src.includes('utteranc')) {
-                    console.log('Найден Utterances iframe:', iframe);
-                    // Проверяем доступ к iframe
-                    try {
-                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        const iframeTextarea = iframeDoc.querySelector('textarea');
-                        if (iframeTextarea) {
-                            console.log('Найден textarea в iframe:', iframeTextarea);
-                            return iframeTextarea;
-                        }
-                    } catch (e) {
-                        console.log('Нет доступа к iframe (CORS):', e);
-                    }
-                }
-            } catch (e) {
-                console.log('Ошибка при проверке iframe:', e);
-            }
-        }
+        utterancesContainer.appendChild(script);
         
-        return null;
-    };
-    
-    // Пробуем найти поле сразу
-    let commentTextarea = findCommentTextarea();
-    
-    if (commentTextarea) {
-        const ratingText = `Оценка: ${rating}/5`;
-        
-        // Если в поле уже есть текст, добавляем оценку в начало
-        if (commentTextarea.value && commentTextarea.value.trim()) {
-            commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
-        } else {
-            commentTextarea.value = ratingText;
-        }
-        
-        // Фокус на поле комментария
-        commentTextarea.focus();
-        
-        // Добавляем визуальную обратную связь
-        showNotification(`Оценка ${rating}/5 добавлена в комментарий`);
-        
-        // Подсвечиваем выбранный рейтинг
-        highlightRatingButton(rating);
-    } else {
-        // Если поле не найдено, ждём загрузки Utterances
-        console.log('Поле комментария не найдено, ждём загрузки Utterances...');
-        let attempts = 0;
-        const maxAttempts = 15;
-        
-        const waitForUtterances = () => {
-            attempts++;
-            commentTextarea = findCommentTextarea();
-            
-            if (commentTextarea) {
-                console.log('Поле найдено после', attempts, 'попыток');
-                const ratingText = `Оценка: ${rating}/5`;
-                
-                if (commentTextarea.value && commentTextarea.value.trim()) {
-                    commentTextarea.value = `${ratingText}\n\n${commentTextarea.value}`;
-                } else {
-                    commentTextarea.value = ratingText;
-                }
-                
-                commentTextarea.focus();
-                showNotification(`Оценка ${rating}/5 добавлена в комментарий`);
-                highlightRatingButton(rating);
-            } else if (attempts < maxAttempts) {
-                console.log('Попытка', attempts, 'из', maxAttempts);
-                setTimeout(waitForUtterances, 1000);
-            } else {
-                console.error('Не удалось найти поле для комментария Utterances');
-                // Альтернативный метод - копируем в буфер обмена
-                copyRatingToClipboard(rating);
-            }
+        // Показываем уведомление
+        const sortLabels = {
+            'newest': 'Сначала новые',
+            'oldest': 'Сначала старые',
+            'popular': 'Самые популярные',
+            'controversial': 'Самые обсуждаемые'
         };
         
-        setTimeout(waitForUtterances, 1000);
-    }
-}
-
-function copyRatingToClipboard(rating) {
-    const ratingText = `Оценка: ${rating}/5`;
-    
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(ratingText).then(() => {
-            showNotification(`Оценка ${rating}/5 скопирована в буфер обмена. Вставьте в комментарий вручную.`);
-            highlightRatingButton(rating);
-        }).catch(err => {
-            console.error('Ошибка копирования:', err);
-            showNotification('Не удалось добавить оценку. Скопируйте текст вручную: ' + ratingText);
-        });
-    } else {
-        // Fallback для старых браузеров
-        const textArea = document.createElement('textarea');
-        textArea.value = ratingText;
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            showNotification(`Оценка ${rating}/5 скопирована в буфер обмена. Вставьте в комментарий вручную.`);
-            highlightRatingButton(rating);
-        } catch (err) {
-            console.error('Ошибка копирования:', err);
-            showNotification('Не удалось добавить оценку. Скопируйте текст вручную: ' + ratingText);
-        }
-        document.body.removeChild(textArea);
-    }
-}
-
-function highlightRatingButton(rating) {
-    // Убираем подсветку со всех кнопок
-    document.querySelectorAll('.rating-btn').forEach(btn => {
-        btn.style.background = '';
-        btn.style.color = '';
-    });
-    
-    // Подсвечиваем выбранную кнопку
-    const selectedBtn = document.querySelector(`.rating-btn:nth-child(${rating})`);
-    if (selectedBtn) {
-        selectedBtn.style.background = 'var(--accent-color)';
-        selectedBtn.style.color = 'var(--darker-bg)';
+        showNotification(`Сортировка: ${sortLabels[sortType]}`);
     }
 }
 
