@@ -690,12 +690,14 @@
     <!-- Utterances Comments -->
     <div class="comments-section">
         <h3>Комментарии и отзывы</h3>
-        <div class="rating-buttons">
-            <button class="rating-btn" onclick="setRating(1)">⭐</button>
-            <button class="rating-btn" onclick="setRating(2)">⭐⭐</button>
-            <button class="rating-btn" onclick="setRating(3)">⭐⭐⭐</button>
-            <button class="rating-btn" onclick="setRating(4)">⭐⭐⭐⭐</button>
-            <button class="rating-btn" onclick="setRating(5)">⭐⭐⭐⭐⭐</button>
+        <div class="comment-sorting">
+            <label for="sort-comments">Сортировка:</label>
+            <select id="sort-comments" onchange="sortComments(this.value)">
+                <option value="newest">Сначала новые</option>
+                <option value="oldest">Сначала старые</option>
+                <option value="popular">Самые популярные</option>
+                <option value="controversial">Самые обсуждаемые</option>
+            </select>
         </div>
         <div class="utterances-container">
             <script src="https://utteranc.es/client.js"
