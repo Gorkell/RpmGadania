@@ -1089,59 +1089,145 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Функция сортировки комментариев
-function sortComments(sortType) {
-    console.log('Сортировка комментариев:', sortType);
+// Функция отправки комментария
+function submitComment() {
+    const commentTextarea = document.getElementById('user-comment');
+    const commentText = commentTextarea.value.trim();
     
-    // Ищем iframe Utterances
-    const iframe = document.querySelector('iframe[src*="utteranc"]');
-    if (!iframe) {
-        showNotification('Секция комментариев еще не загружена');
+    if (!commentText) {
+        showNotification('Пожалуйста, напишите комментарий');
         return;
     }
     
-    // Перезагружаем Utterances с параметрами сортировки
-    const utterancesContainer = document.querySelector('.utterances-container');
-    if (utterancesContainer) {
-        // Очищаем контейнер
-        utterancesContainer.innerHTML = '';
-        
-        // Создаем новый скрипт Utterances с параметрами сортировки
-        const script = document.createElement('script');
-        script.src = 'https://utteranc.es/client.js';
-        script.setAttribute('repo', 'Gorkell/RpmGadania');
-        script.setAttribute('issue-term', 'pathname');
-        script.setAttribute('theme', 'github-light');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.setAttribute('async', '');
-        
-        // Добавляем параметр сортировки через URL
-        switch(sortType) {
-            case 'newest':
-                script.setAttribute('issue-term', 'pathname');
-                break;
-            case 'oldest':
-                script.setAttribute('issue-term', 'pathname');
-                break;
-            case 'popular':
-                script.setAttribute('issue-term', 'pathname');
-                break;
-            case 'controversial':
-                script.setAttribute('issue-term', 'pathname');
-                break;
+    // Проверяем длину комментария
+    if (commentText.length < 3) {
+        showNotification('Комментарий слишком короткий');
+        return;
+    }
+    
+    if (commentText.length > 1000) {
+        showNotification('Комментарий слишком длинный (максимум 1000 символов)');
+        return;
+    }
+    
+    // Ищем iframe Utterances для отправки комментария
+    const iframe = document.querySelector('iframe[src*="utteranc"]');
+    if (iframe) {
+        try {
+            // Пытаемся получить доступ к документу iframe
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const utterancesTextarea = iframeDoc.querySelector('textarea');
+            
+            if (utterancesTextarea) {
+                // Вставляем наш комментарий в поле Utterances
+                utterancesTextarea.value = commentText;
+                utterancesTextarea.focus();
+                
+                // Имитируем ввод текста для триггера событий
+                const event = new Event('input', { bubbles: true });
+                utterancesTextarea.dispatchEvent(event);
+                
+                // Очищаем наше поле
+                commentTextarea.value = '';
+                
+                showNotification('Комментарий добавлен в Utterances. Нажмите "Submit" для отправки.');
+                
+                // Прокручиваем к Utterances
+                iframe.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Подсвечиваем iframe
+                iframe.style.border = '3px solid var(--accent-color)';
+                setTimeout(() => {
+                    iframe.style.border = '';
+                }, 3000);
+                
+            } else {
+                // Если не нашли textarea в iframe, предлагаем копирование
+                copyCommentToUtterances(commentText);
+            }
+        } catch (e) {
+            console.log('Нет доступа к iframe:', e);
+            copyCommentToUtterances(commentText);
         }
-        
-        utterancesContainer.appendChild(script);
-        
-        // Показываем уведомление
-        const sortLabels = {
-            'newest': 'Сначала новые',
-            'oldest': 'Сначала старые',
-            'popular': 'Самые популярные',
-            'controversial': 'Самые обсуждаемые'
-        };
-        
-        showNotification(`Сортировка: ${sortLabels[sortType]}`);
+    } else {
+        // Если Utterances еще не загрузился, сохраняем комментарий
+        saveCommentForLater(commentText);
+    }
+}
+
+function copyCommentToUtterances(commentText) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(commentText).then(() => {
+            document.getElementById('user-comment').value = '';
+            showNotification('Комментарий скопирован. Вставьте его в поле Utterances вручную.');
+        }).catch(err => {
+            console.error('Ошибка копирования:', err);
+            showNotification('Ошибка. Скопируйте комментарий вручную.');
+        });
+    } else {
+        // Fallback
+        const textArea = document.createElement('textarea');
+        textArea.value = commentText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            document.getElementById('user-comment').value = '';
+            showNotification('Комментарий скопирован. Вставьте его в поле Utterances вручную.');
+        } catch (err) {
+            console.error('Ошибка копирования:', err);
+            showNotification('Ошибка. Скопируйте комментарий вручную.');
+        }
+        document.body.removeChild(textArea);
+    }
+}
+
+function saveCommentForLater(commentText) {
+    // Сохраняем комментарий в localStorage
+    localStorage.setItem('pendingComment', commentText);
+    document.getElementById('user-comment').value = '';
+    showNotification('Комментарий сохранён. Он будет вставлен после загрузки Utterances.');
+    
+    // Следим за появлением iframe
+    const checkIframe = setInterval(() => {
+        const iframe = document.querySelector('iframe[src*="utteranc"]');
+        if (iframe) {
+            clearInterval(checkIframe);
+            const pendingComment = localStorage.getItem('pendingComment');
+            if (pendingComment) {
+                setTimeout(() => {
+                    submitSavedComment(pendingComment);
+                    localStorage.removeItem('pendingComment');
+                }, 2000);
+            }
+        }
+    }, 1000);
+    
+    // Останавливаем проверку через 30 секунд
+    setTimeout(() => {
+        clearInterval(checkIframe);
+    }, 30000);
+}
+
+function submitSavedComment(commentText) {
+    const iframe = document.querySelector('iframe[src*="utteranc"]');
+    if (iframe) {
+        try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            const utterancesTextarea = iframeDoc.querySelector('textarea');
+            
+            if (utterancesTextarea) {
+                utterancesTextarea.value = commentText;
+                utterancesTextarea.focus();
+                
+                const event = new Event('input', { bubbles: true });
+                utterancesTextarea.dispatchEvent(event);
+                
+                showNotification('Сохранённый комментарий вставлен в Utterances');
+            }
+        } catch (e) {
+            console.log('Ошибка при вставке сохранённого комментария:', e);
+        }
     }
 }
 
