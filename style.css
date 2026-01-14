@@ -1253,6 +1253,73 @@ body {
     padding: 0.5rem;
 }
 
+.comment-form-section {
+    background: var(--card-bg);
+    border: 1px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.comment-form-section h4 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.custom-comment-form textarea {
+    width: 100%;
+    background: var(--darker-bg);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+}
+
+.custom-comment-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+}
+
+.custom-comment-form textarea::placeholder {
+    color: var(--light-text);
+    opacity: 0.7;
+}
+
+.comment-form-actions {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.comment-form-actions .btn-mystic {
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: 500;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.comment-form-actions .btn-mystic:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.comment-form-actions .btn-mystic:active {
+    transform: translateY(0);
+}
+
 .giscus-container {
     margin-top: 2rem;
     border-top: 1px solid rgba(255, 215, 0, 0.2);
@@ -1286,6 +1353,29 @@ body {
     .comment-sorting select {
         min-width: auto;
         width: 100%;
+    }
+    
+    .comment-form-section {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .comment-form-section h4 {
+        font-size: 1.1rem;
+    }
+    
+    .custom-comment-form textarea {
+        min-height: 80px;
+        padding: 0.8rem;
+    }
+    
+    .comment-form-actions {
+        text-align: center;
+    }
+    
+    .comment-form-actions .btn-mystic {
+        width: 100%;
+        padding: 0.8rem 1rem;
     }
 }
 
