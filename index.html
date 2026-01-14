@@ -699,6 +699,17 @@
                 <option value="controversial">Самые обсуждаемые</option>
             </select>
         </div>
+        <div class="comment-form-section">
+            <h4>Оставить комментарий</h4>
+            <div class="custom-comment-form">
+                <textarea id="user-comment" placeholder="Напишите ваш комментарий..." rows="4"></textarea>
+                <div class="comment-form-actions">
+                    <button class="btn-mystic" onclick="submitComment()">
+                        <i class="fas fa-paper-plane"></i> Отправить комментарий
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="utterances-container">
             <script src="https://utteranc.es/client.js"
                     repo="Gorkell/RpmGadania"
