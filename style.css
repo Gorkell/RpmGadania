@@ -1208,51 +1208,6 @@ body {
     font-size: 1.8rem;
 }
 
-.comment-sorting {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-}
-
-.comment-sorting label {
-    color: var(--text-color);
-    font-weight: 500;
-    font-size: 1rem;
-}
-
-.comment-sorting select {
-    background: var(--card-bg);
-    border: 2px solid var(--accent-color);
-    border-radius: 8px;
-    color: var(--text-color);
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 150px;
-}
-
-.comment-sorting select:hover {
-    border-color: var(--primary-color);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(255, 215, 0, 0.2);
-}
-
-.comment-sorting select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
-}
-
-.comment-sorting select option {
-    background: var(--card-bg);
-    color: var(--text-color);
-    padding: 0.5rem;
-}
-
 .comment-form-section {
     background: var(--card-bg);
     border: 1px solid var(--accent-color);
@@ -1342,17 +1297,6 @@ body {
     .comments-section {
         margin: 2rem 1rem;
         padding: 1.5rem;
-    }
-    
-    .comment-sorting {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: stretch;
-    }
-    
-    .comment-sorting select {
-        min-width: auto;
-        width: 100%;
     }
     
     .comment-form-section {
